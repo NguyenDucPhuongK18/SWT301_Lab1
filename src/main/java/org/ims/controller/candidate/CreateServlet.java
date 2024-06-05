@@ -17,6 +17,8 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.sql.SQLException;
 import java.time.LocalDate;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 @WebServlet(name = "CandidateAddServlet", urlPatterns = {"/candidate/add"})
 @MultipartConfig(fileSizeThreshold = 1024 * 1024, maxFileSize = 1024 * 1024 * 5, maxRequestSize = 1024 * 1024 * 5 * 5)
@@ -48,7 +50,7 @@ public class CreateServlet extends HttpServlet {
                     outputStream.write(buffer, 0, bytesRead);
                 }
             } catch (Exception e) {
-                e.printStackTrace(System.out);
+                Logger.getLogger(CreateServlet.class.getName()).log(Level.SEVERE, "An error has happened", e);
             } finally {
                 response.sendRedirect(request.getContextPath() + "/candidate");
             }
