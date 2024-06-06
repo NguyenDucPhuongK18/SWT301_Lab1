@@ -5,8 +5,8 @@ import org.ims.entity.Member;
 
 public class Interviewer {
 
-    public Member member;
-    public Interview interview;
+    private Member member;
+    private Interview interview;
 
     public Interviewer() {
     }
