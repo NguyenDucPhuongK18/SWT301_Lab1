@@ -8,6 +8,7 @@ import org.ims.util.DatabaseConnection;
 
 import java.sql.*;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 public class MemberDAO {
@@ -52,7 +53,7 @@ public class MemberDAO {
         } catch (SQLException ex) {
             ex.printStackTrace(System.out);
         }
-        return null;
+        return Collections.emptyList();
     }
 
     public Member getOneMember(String memberId) {
