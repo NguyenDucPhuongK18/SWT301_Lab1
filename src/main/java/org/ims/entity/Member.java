@@ -3,9 +3,10 @@ package org.ims.entity;
 import org.ims.constant.EMemberRole;
 import org.ims.constant.EMemberStatus;
 
+import java.io.Serializable;
 import java.time.LocalDate;
 
-public class Member {
+public class Member implements Serializable {
 
     private int memberId;
     private String memberFullName;
