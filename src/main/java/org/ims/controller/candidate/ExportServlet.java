@@ -26,7 +26,7 @@ public class ExportServlet extends HttpServlet {
         response.setContentType("application/vnd.openxmlformats-officedocument.spreadsheetml.sheet");
         response.setHeader("Content-Disposition", "attachment; filename=\"Candidate.xlsx\"");
 
-        String sql = "SELECT * FROM Candidate";
+        String sql = "SELECT full_name, address, phone_number, email, dob, status, note FROM Candidate";
 
         try (Connection connection = DriverManager.getConnection(url, username, password);
              PreparedStatement statement = connection.prepareStatement(sql);
