@@ -23,6 +23,7 @@ import java.util.logging.Logger;
 @WebServlet(name = "CandidateAddServlet", urlPatterns = {"/candidate/add"})
 @MultipartConfig(fileSizeThreshold = 1024 * 1024, maxFileSize = 1024 * 1024 * 5, maxRequestSize = 1024 * 1024 * 5 * 5)
 public class CreateServlet extends HttpServlet {
+    @Override
     public void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException {
         String candidateFullName = request.getParameter("candidateFullName");
         String candidateAddress = request.getParameter("candidateAddress");
