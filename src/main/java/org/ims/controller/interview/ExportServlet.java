@@ -30,7 +30,7 @@ public class ExportServlet extends HttpServlet {
         response.setHeader("Content-Disposition", "attachment; filename=\"Interview.xlsx\"");
 
         String sql = "SELECT * FROM Interview";
-
+        final String interviewID = "interview_id" ;
         try (Connection con = DriverManager.getConnection(url, username, password); XSSFWorkbook workbook = new XSSFWorkbook()) {
             try (PreparedStatement ps = con.prepareStatement(sql); ResultSet rs = ps.executeQuery()) {
                 XSSFSheet interview = workbook.createSheet("Interview");
@@ -43,7 +43,7 @@ public class ExportServlet extends HttpServlet {
 
                 jobs.put("0", new Object[]{"title", "start_time", "end_time", "location", "status", "result", "note", "candidate"});
                 while (rs.next()) {
-                    jobs.put(String.valueOf(rs.getInt("interview_id")), new Object[]{rs.getString("interview_title"), rs.getDate("interview_start_time"), rs.getDate("interview_end_time"), rs.getString("interview_location"), rs.getString("interview_status"), rs.getString("interview_result"), rs.getString("interview_note"), cD.getOneCandidate(rs.getString("candidate_id")).getCandidateFullName()});
+                    jobs.put(String.valueOf(rs.getInt(interviewID)), new Object[]{rs.getString("interview_title"), rs.getDate("interview_start_time"), rs.getDate("interview_end_time"), rs.getString("interview_location"), rs.getString("interview_status"), rs.getString("interview_result"), rs.getString("interview_note"), cD.getOneCandidate(rs.getString("candidate_id")).getCandidateFullName()});
                 }
                 Set<String> keyid = jobs.keySet();
                 int rowid = 0;
@@ -77,7 +77,7 @@ public class ExportServlet extends HttpServlet {
 
                 jobs.put("0", new Object[]{"interview_title", "interviewer"});
                 while (rs.next()) {
-                    jobs.put(String.valueOf(rs.getInt("interview_id") + actualKey), new Object[]{iD.getOneInterview(rs.getString("interview_id")).getInterviewTitle(), mD.getOneMember(rs.getString("member_id")).getMemberFullName()});
+                    jobs.put(String.valueOf(rs.getInt(interviewID) + actualKey), new Object[]{iD.getOneInterview(rs.getString(interviewID)).getInterviewTitle(), mD.getOneMember(rs.getString("member_id")).getMemberFullName()});
                     actualKey++;
                 }
                 Set<String> keyid = jobs.keySet();
