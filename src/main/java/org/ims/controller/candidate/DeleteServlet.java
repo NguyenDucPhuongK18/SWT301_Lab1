@@ -11,10 +11,12 @@ import org.ims.entity.Candidate;
 import java.io.File;
 import java.io.IOException;
 import java.sql.SQLException;
+import java.util.logging.Logger;
 
 @WebServlet(name = "CandidateDeleteServlet", urlPatterns = {"/candidate/delete"})
 public class DeleteServlet extends HttpServlet {
     public void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        private static final Logger LOGGER = Logger.getLogger(DeleteServlet.class.getName());
         String candidateId = request.getParameter("candidateId");
         CandidateDAO cD = new CandidateDAO();
 
@@ -23,10 +25,18 @@ public class DeleteServlet extends HttpServlet {
             deleteFile(c.getCandidateImage());
             deleteFile(c.getCandidateCvAttachment());
             cD.deleteACandidate(candidateId);
+            response.sendRedirect(request.getContextPath() + "/candidate");
         } catch (SQLException e) {
-            e.printStackTrace(System.out);
+            LOGGER.log(Level.SEVERE, "SQL Exception while deleting candidate", e);
+            // Handle the SQL exception, possibly redirect to an error page or inform the user/admin
+        } catch (IOException e) {
+            LOGGER.log(Level.SEVERE, "IO Exception while redirecting", e);
+            // Handle the IO exception, possibly redirect to an error page or inform the user/admin
+        } catch (Exception e) {
+            LOGGER.log(Level.SEVERE, "Unexpected exception", e);
+            // Handle any other unexpected exceptions
         }
-        response.sendRedirect(request.getContextPath() + "/candidate");
+        
     }
 
     private void deleteFile(String fileName) {
