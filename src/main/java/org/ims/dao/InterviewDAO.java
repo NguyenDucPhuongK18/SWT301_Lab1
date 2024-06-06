@@ -4,6 +4,7 @@ import org.ims.constant.EInterviewResult;
 import org.ims.constant.EInterviewStatus;
 import org.ims.constant.IInterviewQuery;
 import org.ims.constant.IInterviewerQuery;
+import org.ims.controller.candidate.DeleteServlet;
 import org.ims.dto.Interviewer;
 import org.ims.entity.Candidate;
 import org.ims.entity.Interview;
@@ -13,8 +14,10 @@ import org.ims.util.DatabaseConnection;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.logging.Logger;
 
 public class InterviewDAO {
+    private final Logger logger = Logger.getLogger(DeleteServlet.class.getName());
 
     public Interview rowMapper(ResultSet rs) throws SQLException {
         CandidateDAO cD = new CandidateDAO();
@@ -29,8 +32,7 @@ public class InterviewDAO {
             enum_InterviewStatus = EInterviewStatus.convertFromString(interviewStatus);
             enum_InterviewResult = EInterviewResult.convertFromString(interviewResult);
         } catch (IllegalArgumentException ignored) {
-            System.out.println(ignored.getMessage());
-            throw new IllegalArgumentException(ignored);
+            logger.warning("Invalid interview status or result found in the database.");
         }
         return new Interview(
                 rs.getInt("interview_id"),

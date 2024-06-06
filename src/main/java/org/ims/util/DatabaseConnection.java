@@ -24,11 +24,4 @@ public class DatabaseConnection {
         return null;
     }
 
-//    public static void main(String[] args) {
-//        if(getConnection() != null) {
-//            System.out.println("Connected");
-//        } else {
-//            System.out.println("Not connected");
-//        }
-//    }
 }
