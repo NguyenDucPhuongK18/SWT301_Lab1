@@ -20,11 +20,9 @@ public class DeleteServlet extends HttpServlet {
         HttpSession session = request.getSession();
         Member u = (Member) session.getAttribute("user");
         mD.deleteAMember(memberId);
-        if (u != null) {
-            if (u.getMemberId() == Integer.parseInt(memberId)) {
+        if (u != null && u.getMemberId() == Integer.parseInt(memberId)) {
                 session.invalidate();
                 request.logout();
-            }
         }
         response.sendRedirect(request.getContextPath() + "/member");
     }
