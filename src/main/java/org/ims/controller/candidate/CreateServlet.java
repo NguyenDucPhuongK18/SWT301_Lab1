@@ -56,7 +56,7 @@ public class CreateServlet extends HttpServlet {
                 response.sendRedirect(request.getContextPath() + "/candidate");
             }
         } catch (ServletException | SQLException e) {
-            e.printStackTrace(System.out);
+            Logger.getLogger(CreateServlet.class.getName()).log(Level.SEVERE, "An error has happened", e);
         }
     }
 }
