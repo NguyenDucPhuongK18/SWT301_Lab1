@@ -29,6 +29,8 @@ public class InterviewDAO {
             enum_InterviewStatus = EInterviewStatus.convertFromString(interviewStatus);
             enum_InterviewResult = EInterviewResult.convertFromString(interviewResult);
         } catch (IllegalArgumentException ignored) {
+            System.out.println(ignored.getMessage());
+            throw new IllegalArgumentException(ignored);
         }
         return new Interview(
                 rs.getInt("interview_id"),

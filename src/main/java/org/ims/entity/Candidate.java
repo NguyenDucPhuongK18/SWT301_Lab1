@@ -19,7 +19,6 @@ public class Candidate {
 
     public Candidate() {
     }
-
     public Candidate(int candidateId, String candidateFullName, String candidateAddress,
             String candidatePhoneNumber, String candidateEmail, String candidateImage,
             LocalDate candidateDob, String candidateCvAttachment, ECandidateStatus candidateStatus,

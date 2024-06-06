@@ -11,12 +11,13 @@ import org.ims.entity.Candidate;
 import java.io.File;
 import java.io.IOException;
 import java.sql.SQLException;
+import java.util.logging.Level;
 import java.util.logging.Logger;
 
 @WebServlet(name = "CandidateDeleteServlet", urlPatterns = {"/candidate/delete"})
 public class DeleteServlet extends HttpServlet {
     public void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        private static final Logger LOGGER = Logger.getLogger(DeleteServlet.class.getName());
+        final Logger LOGGER = Logger.getLogger(DeleteServlet.class.getName());
         String candidateId = request.getParameter("candidateId");
         CandidateDAO cD = new CandidateDAO();
 
@@ -45,7 +46,11 @@ public class DeleteServlet extends HttpServlet {
             String filePath = directory + File.separator + fileName;
             File fileToDelete = new File(filePath);
             if (fileToDelete.exists()) {
-                fileToDelete.delete(); // Delete the file from the server
+                if(fileToDelete.delete()) {
+                    System.out.println("File deleted successfully");
+                } else {
+                    System.out.println("Failed to delete the file");
+                }
             }
         }
     }

@@ -48,12 +48,8 @@ public class CreateServlet extends HttpServlet {
                 interviewStatus, interviewResult, interviewNote, candidate, job);
         InterviewDAO iD = new InterviewDAO();
         int insertedId = iD.insertANewInterview(interview);
-        try {
-            List<Interview> interviewList = iD.getInterviews("%%");
-            iD.insertInterviewersOfAnInterview(String.valueOf(insertedId), interviewers);
-        } catch (SQLException e) {
-            e.printStackTrace(System.out);
-        }
+        //            List<Interview> interviewList = iD.getInterviews("%%");
+        iD.insertInterviewersOfAnInterview(String.valueOf(insertedId), interviewers);
         response.sendRedirect(request.getContextPath() + "/interview");
     }
 }
