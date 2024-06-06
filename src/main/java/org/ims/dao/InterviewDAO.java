@@ -4,7 +4,6 @@ import org.ims.constant.EInterviewResult;
 import org.ims.constant.EInterviewStatus;
 import org.ims.constant.IInterviewQuery;
 import org.ims.constant.IInterviewerQuery;
-import org.ims.controller.candidate.DeleteServlet;
 import org.ims.dto.Interviewer;
 import org.ims.entity.Candidate;
 import org.ims.entity.Interview;
@@ -17,7 +16,7 @@ import java.util.List;
 import java.util.logging.Logger;
 
 public class InterviewDAO {
-    private transient final Logger logger = Logger.getLogger(InterviewDAO.class.getName());
+    private final transient Logger logger = Logger.getLogger(InterviewDAO.class.getName());
     public Interview rowMapper(ResultSet rs) throws SQLException {
         CandidateDAO cD = new CandidateDAO();
         JobDAO jD = new JobDAO();

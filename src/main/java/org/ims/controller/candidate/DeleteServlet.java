@@ -16,7 +16,7 @@ import java.util.logging.Logger;
 
 @WebServlet(name = "CandidateDeleteServlet", urlPatterns = {"/candidate/delete"})
 public class DeleteServlet extends HttpServlet {
-    private transient final Logger logger = Logger.getLogger(DeleteServlet.class.getName());
+    private final transient Logger logger = Logger.getLogger(DeleteServlet.class.getName());
     public void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         String candidateId = request.getParameter("candidateId");
         CandidateDAO cD = new CandidateDAO();
