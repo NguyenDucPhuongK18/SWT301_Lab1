@@ -16,7 +16,7 @@ import java.util.List;
 import java.util.logging.Logger;
 
 public class InterviewDAO {
-    private final transient Logger logger = Logger.getLogger(InterviewDAO.class.getName());
+    private final Logger logger = Logger.getLogger(InterviewDAO.class.getName());
     public Interview rowMapper(ResultSet rs) throws SQLException {
         CandidateDAO cD = new CandidateDAO();
         JobDAO jD = new JobDAO();
