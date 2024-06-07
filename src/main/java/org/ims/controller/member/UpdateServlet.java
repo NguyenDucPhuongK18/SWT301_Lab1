@@ -41,7 +41,11 @@ public class UpdateServlet extends HttpServlet {
         Member member = new Member(Integer.parseInt(memberId), memberFullName, memberAccount, memberPassword, memberDob, memberCreatedTime, memberAddress, memberEmail,
                 memberPhoneNumber, memberImage, memberNote, enum_memberStatus, enum_memberRole);
         MemberDAO mD = new MemberDAO();
-        mD.updateAMember(memberId, member);
+        try {
+            mD.updateAMember(memberId, member);
+        } catch (MemberDAO.MemberUpdateException e) {
+            throw new RuntimeException(e);
+        }
         response.sendRedirect(request.getContextPath() + "/member");
     }
 }

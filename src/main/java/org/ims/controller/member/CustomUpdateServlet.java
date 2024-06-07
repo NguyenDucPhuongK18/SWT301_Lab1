@@ -33,7 +33,11 @@ public class CustomUpdateServlet extends HttpServlet {
         Member member = new Member(Integer.parseInt(memberId), memberFullName, memberAccount, memberPassword, memberDob, found.getMemberCreatedTime(), memberAddress, memberEmail,
                 memberPhoneNumber, found.getMemberImage(), memberNote, found.getMemberStatus(), found.getMemberRole());
 
-        mD.updateAMember(memberId, member);
+        try {
+            mD.updateAMember(memberId, member);
+        } catch (MemberDAO.MemberUpdateException e) {
+            throw new RuntimeException(e);
+        }
         response.sendRedirect(request.getContextPath() + "/member");
     }
 
