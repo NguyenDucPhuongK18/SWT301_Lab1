@@ -36,27 +36,56 @@ public class CreateServlet extends HttpServlet {
         String candidateNote = request.getParameter("candidateNote");
         Candidate newCandidate = new Candidate(0, candidateFullName, candidateAddress, candidatePhoneNumber, candidateEmail, candidateImage, candidateDob, candidateCvAttachment, ecs, candidateNote);
         CandidateDAO cD = new CandidateDAO();
+
+//        try {
+//            cD.insertANewCandidate(newCandidate);
+//
+//            Part filePart = request.getPart("inputCImage");
+//            String fileName = filePart.getSubmittedFileName();
+//            String directory = "D:\\DemoAgain\\src\\main\\webapp";
+//            String filePath = directory + File.separator + fileName;
+//
+//            try (InputStream inputStream = filePart.getInputStream(); FileOutputStream outputStream = new FileOutputStream(filePath)) {
+//                byte[] buffer = new byte[1024];
+//                int bytesRead;
+//                while ((bytesRead = inputStream.read(buffer)) != -1) {
+//                    outputStream.write(buffer, 0, bytesRead);
+//                }
+//            } catch (Exception e) {
+//                Logger.getLogger(CreateServlet.class.getName()).log(Level.SEVERE, "An error has happened", e);
+//            } finally {
+//                response.sendRedirect(request.getContextPath() + "/candidate");
+//            }
+//        } catch (ServletException | SQLException e) {
+//            e.printStackTrace(System.out);
+//        }
+
         try {
             cD.insertANewCandidate(newCandidate);
 
             Part filePart = request.getPart("inputCImage");
-            String fileName = filePart.getSubmittedFileName();
             String directory = "D:\\DemoAgain\\src\\main\\webapp";
+            String fileName = filePart.getSubmittedFileName();
             String filePath = directory + File.separator + fileName;
 
-            try (InputStream inputStream = filePart.getInputStream(); FileOutputStream outputStream = new FileOutputStream(filePath)) {
-                byte[] buffer = new byte[1024];
-                int bytesRead;
-                while ((bytesRead = inputStream.read(buffer)) != -1) {
-                    outputStream.write(buffer, 0, bytesRead);
-                }
-            } catch (Exception e) {
-                Logger.getLogger(CreateServlet.class.getName()).log(Level.SEVERE, "An error has happened", e);
-            } finally {
-                response.sendRedirect(request.getContextPath() + "/candidate");
-            }
+            uploadFile(filePath, filePart);
+
+            response.sendRedirect(request.getContextPath() + "/candidate");
         } catch (ServletException | SQLException e) {
+            e.printStackTrace(System.out);
+        }
+    }
+    // New method to handle file upload
+    private void uploadFile(String filePath, Part filePart) throws IOException {
+        try (InputStream inputStream = filePart.getInputStream(); FileOutputStream outputStream = new FileOutputStream(filePath)) {
+            byte[] buffer = new byte[1024];
+            int bytesRead;
+            while ((bytesRead = inputStream.read(buffer)) != -1) {
+                outputStream.write(buffer, 0, bytesRead);
+            }
+        } catch (Exception e) {
             Logger.getLogger(CreateServlet.class.getName()).log(Level.SEVERE, "An error has happened", e);
         }
     }
+
 }
