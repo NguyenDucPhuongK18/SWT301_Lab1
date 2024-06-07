@@ -119,7 +119,7 @@ public class MemberDAO {
         }
     }
 
-    public void updateAMember(String memberId, Member updatedOne) {
+    public void updateAMember(String memberId, Member updatedOne) throws MemberUpdateException {
         try (Connection c = DatabaseConnection.getConnection();
              PreparedStatement ps = c.prepareStatement(IMemberQuery.UPDATE_A_MEMBER)) {
             Member found = getOneMember(memberId);
@@ -129,7 +129,7 @@ public class MemberDAO {
                 ps.executeUpdate();
             }
         } catch (SQLException e) {
-            throw new RuntimeException(e);
+            throw new MemberUpdateException("Failed to update member with ID: " + memberId, e);
         }
     }
 
@@ -145,5 +145,15 @@ public class MemberDAO {
         ps.setString(9, member.getMemberStatus().getMemberStatus());
         ps.setString(10, member.getMemberRole().getMemberRole());
         ps.setString(11, member.getMemberNote());
+    }
+
+    public class MemberUpdateException extends Exception {
+        public MemberUpdateException(String message) {
+            super(message);
+        }
+
+        public MemberUpdateException(String message, Throwable cause) {
+            super(message, cause);
+        }
     }
 }
