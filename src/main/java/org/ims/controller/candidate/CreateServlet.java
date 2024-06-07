@@ -15,6 +15,7 @@ import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.nio.file.Paths;
 import java.sql.SQLException;
 import java.time.LocalDate;
 import java.util.logging.Level;
@@ -37,36 +38,15 @@ public class CreateServlet extends HttpServlet {
         Candidate newCandidate = new Candidate(0, candidateFullName, candidateAddress, candidatePhoneNumber, candidateEmail, candidateImage, candidateDob, candidateCvAttachment, ecs, candidateNote);
         CandidateDAO cD = new CandidateDAO();
 
-//        try {
-//            cD.insertANewCandidate(newCandidate);
-//
-//            Part filePart = request.getPart("inputCImage");
-//            String fileName = filePart.getSubmittedFileName();
-//            String directory = "D:\\DemoAgain\\src\\main\\webapp";
-//            String filePath = directory + File.separator + fileName;
-//
-//            try (InputStream inputStream = filePart.getInputStream(); FileOutputStream outputStream = new FileOutputStream(filePath)) {
-//                byte[] buffer = new byte[1024];
-//                int bytesRead;
-//                while ((bytesRead = inputStream.read(buffer)) != -1) {
-//                    outputStream.write(buffer, 0, bytesRead);
-//                }
-//            } catch (Exception e) {
-//                Logger.getLogger(CreateServlet.class.getName()).log(Level.SEVERE, "An error has happened", e);
-//            } finally {
-//                response.sendRedirect(request.getContextPath() + "/candidate");
-//            }
-//        } catch (ServletException | SQLException e) {
-//            e.printStackTrace(System.out);
-//        }
-
         try {
             cD.insertANewCandidate(newCandidate);
 
             Part filePart = request.getPart("inputCImage");
             String directory = "D:\\DemoAgain\\src\\main\\webapp";
-            String fileName = filePart.getSubmittedFileName();
-            String filePath = directory + File.separator + fileName;
+            String fileName = Paths.get(filePart.getSubmittedFileName()).getFileName().toString(); // Extracts the filename, ignoring path information
+            String sanitizedFileName = fileName.replaceAll("[^a-zA-Z0-9\\.\\-]", "_"); // Sanitize the filename
+            String filePath = directory + File.separator + sanitizedFileName;
+
 
             uploadFile(filePath, filePart);
 
