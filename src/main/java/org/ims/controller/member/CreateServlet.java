@@ -27,19 +27,19 @@ public class CreateServlet extends HttpServlet {
         String memberRole = request.getParameter("memberRole");
         String memberStatus = request.getParameter("memberStatus");
         String memberNote = request.getParameter("memberNote");
-        EMemberRole enum_memberRole = null;
-        EMemberStatus enum_memberStatus = null;
+        EMemberRole memberRoleEnum = null;
+        EMemberStatus memberStatusEnum = null;
         try {
-            enum_memberRole = EMemberRole.convertFromString(memberRole);
-            enum_memberStatus = EMemberStatus.convertFromString(memberStatus);
+            memberRoleEnum = EMemberRole.convertFromString(memberRole);
+            memberStatusEnum = EMemberStatus.convertFromString(memberStatus);
         } catch (IllegalArgumentException e) {
             e.printStackTrace(System.out);
         }
 
         Member member = new Member(0, memberFullName, memberAccount, memberPassword, memberDob, memberCreatedTime, memberAddress, memberEmail,
-                memberPhoneNumber, memberImage, memberNote, enum_memberStatus, enum_memberRole);
-        MemberDAO mD = new MemberDAO();
-        mD.insertANewMember(member);
+                memberPhoneNumber, memberImage, memberNote, memberStatusEnum, memberRoleEnum);
+        MemberDAO memberDAO = new MemberDAO();
+        memberDAO.insertANewMember(member);
         response.sendRedirect(request.getContextPath() + "/member");
     }
 }
