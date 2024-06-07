@@ -18,10 +18,18 @@ import java.util.TreeMap;
 
 @WebServlet(name = "CandidateExportServlet", urlPatterns = {"/candidate/export"})
 public class ExportServlet extends HttpServlet {
-    public void doGet(HttpServletRequest request, HttpServletResponse response) {
-        String url = "jdbc:sqlserver://localhost:1433;databaseName=InterviewManagement;encrypt=false";
-        String username = "pi";
-        String password = "pien";
+    public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
+        // Retrieve database credentials from environment variables
+        String url = System.getenv("DB_URL");
+        String username = System.getenv("DB_USERNAME");
+        String password = System.getenv("DB_PASSWORD");
+
+        // Ensure the environment variables are set
+        if (url == null || username == null || password == null) {
+            response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
+            response.getWriter().write("Database credentials are not properly set in environment variables.");
+            return;
+        }
 
         response.setContentType("application/vnd.openxmlformats-officedocument.spreadsheetml.sheet");
         response.setHeader("Content-Disposition", "attachment; filename=\"Candidate.xlsx\"");
@@ -76,4 +84,9 @@ public class ExportServlet extends HttpServlet {
         }
     }
 }
+
+//Set the environment variables DB_URL, DB_USERNAME, and DB_PASSWORD in your deployment environment. For example:
+//set DB_URL=jdbc:sqlserver://localhost:1433;databaseName=InterviewManagement;encrypt=false
+//set DB_USERNAME=yourNewUsername
+//set DB_PASSWORD=yourNewPassword
 
